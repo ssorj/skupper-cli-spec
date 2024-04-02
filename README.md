@@ -46,6 +46,9 @@ kind: Site
 [...]
 
 $ skupper site set --ingress route
+Option "ingress" set to "route"
+Waiting for ingress...
+Site "west" is ready
 
 $ skupper site delete
 Site "west" deleted
@@ -58,7 +61,7 @@ $ skupper token
 [Token-specific help text]
 
 $ skupper token create token.yaml
-Token created at token.yaml
+Token file created at token.yaml
 The token expires after 1 use or after 15 minutes
 ~~~
 
@@ -69,8 +72,9 @@ $ skupper link
 [Link-specific help text]
 
 $ skupper link create token.yaml
-Waiting for "link-2" to become active...
+Waiting for link "link-2" to become active...
 Link "link-2" is active
+You can now delete token.yaml.  It is no longer usable.
 
 $ skupper link get
 NAME     STATUS   COST
@@ -121,8 +125,6 @@ It's important that these work as scripted with no sleeps or condition waits.
 
 Can you really edit the name of a CR?
 
-How to apply -f something?  Always using kubectl?
-
 Need to look at kubectl output for get of one resource.
 
 By default, no ingress.  Overall, it seems a bit better to require
@@ -143,40 +145,44 @@ Kube: Equivalent to `kubectl delete -f https://skupper.io/install.yaml`
 
 Blocks until: The Skupper resources are removed
 
-## skupper <resource-type>
+## `skupper <resource-type>`
 
 Get help about operations on this resource type.
 
-## skupper <resource-type> create
+## `skupper <resource-type> create`
 
 Create a resource.
 
-## skupper <resource-type> delete <resource-name>
+## `skupper <resource-type> delete <resource-name>`
 
 Delete a resource.
+
+Since site is a singleton, resource name is not required.
 
 ## `skupper <resource-type> get [<resource-name>]`
 
 This works like kubectl get.  Get without a qualifying resource name
 enumerates the resources of this type.
 
-## skupper <resource-type> set [<resource-name>] [options]
+## `skupper <resource-type> set <resource-name> [settings]`
 
 Set resource settings.
 
-## skupper <resource-type> <special-operation>
+Since site is a singleton, resource name is not required.
+
+## `skupper <resource-type> <special-operation>`
 
 An operation specific to a particular resource type.
 
-## skupper site
+<!-- ## skupper site -->
 
-## skupper site create
+<!-- ## skupper site create -->
 
-## skupper site delete
+<!-- ## skupper site delete -->
 
-## skupper site get
+<!-- ## skupper site get -->
 
-## skupper site set
+<!-- ## skupper site set -->
 
 <!-- ## skupper token -->
 
