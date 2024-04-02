@@ -125,12 +125,47 @@ It's important that these work as scripted with no sleeps or condition waits.
 
 Can you really edit the name of a CR?
 
-Need to look at kubectl output for get of one resource.
-
 By default, no ingress.  Overall, it seems a bit better to require
 people specify when they want it.
 
-## `skupper install`
+## Rules
+
+No blocking on input.
+
+## Skupper resource commands
+
+### `skupper <resource-type>`
+
+Get help about operations on this resource type.
+
+### `skupper <resource-type> create`
+
+Create a resource.
+
+### `skupper <resource-type> delete <resource-name>`
+
+Delete a resource.
+
+Since site is a singleton, resource name is not required.
+
+### `skupper <resource-type> get [<resource-name>]`
+
+This works like kubectl get.  Get without a qualifying resource name
+enumerates the resources of this type.
+
+### `skupper <resource-type> set <resource-name> [settings]`
+
+Set resource settings.
+
+Since site is a singleton, resource name is not required.
+
+### `skupper <resource-type> <special-operation>`
+
+An operation specific to a particular resource type.
+
+## Skupper installation commands
+
+### `skupper install`
 
 Kube: Equivalent to `kubectl apply -f https://skupper.io/install.yaml`
 
@@ -139,40 +174,11 @@ Blocks until: The Skupper controller is ready
 Consider: Should this fall back to some static version of the install
 YAML burned into the CLI?  For disconnected cases.
 
-## `skupper uninstall`
+### `skupper uninstall`
 
 Kube: Equivalent to `kubectl delete -f https://skupper.io/install.yaml`
 
 Blocks until: The Skupper resources are removed
-
-## `skupper <resource-type>`
-
-Get help about operations on this resource type.
-
-## `skupper <resource-type> create`
-
-Create a resource.
-
-## `skupper <resource-type> delete <resource-name>`
-
-Delete a resource.
-
-Since site is a singleton, resource name is not required.
-
-## `skupper <resource-type> get [<resource-name>]`
-
-This works like kubectl get.  Get without a qualifying resource name
-enumerates the resources of this type.
-
-## `skupper <resource-type> set <resource-name> [settings]`
-
-Set resource settings.
-
-Since site is a singleton, resource name is not required.
-
-## `skupper <resource-type> <special-operation>`
-
-An operation specific to a particular resource type.
 
 <!-- ## skupper site -->
 
