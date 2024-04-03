@@ -167,6 +167,12 @@ options.
 
 #### Positional arguments
 
+`token create` takes one positional parameter, the file in which to
+create the token.
+
+`link create` takes one positional parameter, the file containing the
+token.
+
 `listener create` takes one positional parameter of the form
 `<host>:<port>`.  Host and port are used to configure the Kubernetes
 service.  If no `--routing-key` option is supplied, a routing key is
