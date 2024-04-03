@@ -166,6 +166,21 @@ command line options.  YAML resource options in camel case (`someKey`)
 are exposed as hyphenated names (`some-key`) when used as command line
 options.
 
+#### Positional arguments
+
+`listener create` takes one positional parameter of the form
+`<host>:<port>`.  Host and port are used to configure the Kubernetes
+service.  If no `--routing-key` option is supplied, a routing key is
+generated with the form `<host>-<port>`.
+
+`connector create` takes two positional parameters, `<host>:<port>`
+and `<workload>`.  Host and port are used to configure the router
+connector.  If no `--routing-key` option is supplied, a routing key is
+generated with the form `<host>-<port>`.  `<workload>` specifies a
+Kubernetes workload that will handle the matched connections.
+
+#### Blocking
+
 `site create` blocks until the site is ready, including ingress if
 configured.
 
@@ -183,6 +198,8 @@ Delete a resource.
 
 Since site is a singleton, the resource name argument is not required
 for site deletion.
+
+#### Blocking
 
 The delete operation blocks until the resource is removed.
 
@@ -209,6 +226,8 @@ options as those used on create.
 
 Since site is a singleton, the resource name argument is not required
 for setting site options.
+
+#### Blocking
 
 `set` blocks with the same rules expressed for `create`.
 
