@@ -28,6 +28,20 @@ $ skupper link create ~/token.yaml
 $ skupper connector create backend:8080 deployment/backend
 ~~~
 
+## Philosophy
+
+The Skupper CLI in version 2 is deliberately a light layer on top of
+the standard Skupper customer resources.  Its job in short is to
+render the YAML resource, submit it to the platform, and wait for the
+desired result.
+
+The `create` and `set` operations in particular are meant to provide
+a convenient and CLI-conventional interface.
+
+In general, the operations block until the user's desired outcome is
+achieved.  If the user wants something asynchronous, they can use
+`kubectl` commands.
+
 ## Example site operations
 
 ~~~ console
