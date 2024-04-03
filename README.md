@@ -116,14 +116,14 @@ Link "west-1" is deleted
 ## Example listener operations
 
 ~~~ console
-$ skupper listener create database-5432 database:5432
+$ skupper listener create database database:5432
 Waiting for listener...
 Listener "database-1" is ready
 
 $ skupper listener get
-NAME         ROUTING-KEY     HOST       PORT
-payments-1   payments-8080   payments   8080
-database-1   database-5432   database   5432
+NAME         ROUTING-KEY   HOST       PORT
+payments-1   payments      payments   8080
+database-1   database      database   5432
 
 $ skupper listener get database-1 -o yaml
 apiVersion: v2alpha1
@@ -146,8 +146,8 @@ Waiting for connector...
 Connector "database-1" is ready
 
 $ skupper connector get
-NAME         ROUTING-KEY     SELECTOR       HOST   PORT
-database-1   database-5432   app=database   -      5432
+NAME         ROUTING-KEY   SELECTOR       HOST   PORT
+database-1   database      app=database   -      5432
 
 $ skupper connector get database-1 -o yaml
 apiVersion: v2alpha1
@@ -182,26 +182,21 @@ options.
 
 #### Positional arguments
 
-`token create` takes one positional parameter, the file in which to
-create the token.
+`token create <token-file>` - `token create` takes one positional
+parameter, the file in which to create the token.
 
-`link create` takes one positional parameter, the file containing the
-token.
+`link create <token-file>` - `link create` takes one positional
+parameter, the file containing the token.
 
-`listener create <routing-key> <host>:<port>`
+`listener create <routing-key> <host>:<port>` - `listener create`
+takes two positonal parameters, the routing key (used to match with
+connectors) and the `<host>:<port>` of the desired Kubernetes service.
 
-`connector create <routing-key> <workload>` and Kube currently needs `--port`.
-
-<!-- `listener create` takes one positional parameter of the form -->
-<!-- `<host>:<port>`.  Host and port are used to configure the Kubernetes -->
-<!-- service.  If no `--routing-key` option is supplied, a routing key is -->
-<!-- generated with the form `<host>-<port>`. -->
-
-<!-- `connector create` takes two positional parameters, `<host>:<port>` -->
-<!-- and `<workload>`.  Host and port are used to configure the router -->
-<!-- connector.  If no `--routing-key` option is supplied, a routing key is -->
-<!-- generated with the form `<host>-<port>`.  `<workload>` specifies a -->
-<!-- Kubernetes workload that will handle the matched connections. -->
+`connector create <routing-key> <resource-type>/<resource-name>` -
+`connector create` takes two positional parameters, the routing key
+(used to match with listeners) and the <resource-type>/<resource-name>
+of the target Kubernetes workload.  Kubernetes also needs a `--port`
+option to specify the port for the target workload.
 
 #### Blocking
 
