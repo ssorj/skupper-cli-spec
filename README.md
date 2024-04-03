@@ -46,9 +46,6 @@ achieved.  If the user wants something asynchronous, they can use
 ## Example site operations
 
 ~~~ console
-$ skupper site
-[Site-specific help text]
-
 $ skupper site create --name west --ingress loadbalancer
 Waiting for status...
 Waiting for ingress...
@@ -75,9 +72,6 @@ Site "west" is deleted
 ## Example token operations
 
 ~~~ console
-$ skupper token
-[Token-specific help text]
-
 $ skupper token create token.yaml
 Token file created at token.yaml
 The token expires after 1 use or after 15 minutes
@@ -86,9 +80,6 @@ The token expires after 1 use or after 15 minutes
 ## Example link operations
 
 ~~~ console
-$ skupper link
-[Link-specific help text]
-
 $ skupper link create token.yaml
 Waiting for link "west" to become active...
 Link "west" is active
