@@ -122,48 +122,69 @@ $ skupper listener delete listener-2
 Listener "listener-2" deleted
 ~~~
 
-## Thoughts
-
-Consider doing platform install on demand in site create operation?
-
-It's important that these work as scripted with no sleeps or condition waits.
-
-Can you really edit the name of a CR?
-
-By default, no ingress.  Overall, it seems a bit better to require
-people specify when they want it.
-
-## Rules
-
-* No blocking on input.
-
-
 ## Skupper resource commands
+
+These are the core Skupper commands.  They are not the only commands,
+however.  Additional commands will be added to the spec in the future.
 
 ### `skupper <resource-type>`
 
-Get help about operations on this resource type.
+Print help text for the operations of this resource type.
 
-### `skupper <resource-type> create`
+### `skupper <resource-type> create [options]`
 
 Create a resource.
+
+Resource options are set using one or more `--some-key some-value`
+command line options.  Options in YAML camel case (`someKey`) are
+converted to hyphenated (`some-key`) when used as command line
+options.
+
+`site create` blocks until the site is ready, including ingress if
+configured.
+
+`link create` blocks until the link is active.
+
+`listener create` blocks until the router listener is ready to accept
+connections.
+
+`connector create` blocks until the router connector is ready to make
+connections.
 
 ### `skupper <resource-type> delete <resource-name>`
 
 Delete a resource.
 
-Since site is a singleton, resource name is not required.
+Since site is a singleton, the resource name argument is not required
+for site deletion.
+
+The delete operation blocks until the resource is removed.
 
 ### `skupper <resource-type> get [<resource-name>]`
 
-This works like kubectl get.  Get without a qualifying resource name
-enumerates the resources of this type.
+This works just like `kubectl get <type>/<name>`.  In the first
+iteration of the CLI, I think we should just delegate to kubectl.
 
-### `skupper <resource-type> set <resource-name> [settings]`
+`get` without a qualifying resource name argument enumerates all the
+resources of this type.  (Same as `kubectl get`.)
 
-Set resource settings.
+`get` with a resource name and `--output yaml` gives you the full
+resource YAML.  (Same as `kubectl get`.)
 
-Since site is a singleton, resource name is not required.
+### `skupper <resource-type> set <resource-name> [options]`
+
+Set resource options.
+
+`set` is very similar to `create`.  Instead of creating a new resource
+from defaults, it updates an existing one.
+
+This takes one or more long options (`--name foo`).  They are the same
+options as those used on create.
+
+Since site is a singleton, the resource name argument is not required
+for setting site options.
+
+`set` blocks with the same rules expressed for `create`.
 
 ### `skupper <resource-type> <special-operation>`
 
@@ -186,44 +207,17 @@ An operation specific to a particular resource type.
 
 <!-- Blocks until: The Skupper resources are removed -->
 
-<!-- ## skupper site -->
+## Thoughts
 
-<!-- ## skupper site create -->
+It's important that these work as scripted with no sleeps or
+additional condition waits.
 
-<!-- ## skupper site delete -->
+Can you edit the name of a CR?
 
-<!-- ## skupper site get -->
+By default, no ingress.  Overall, it seems a bit better to require
+people specify when they want it.
 
-<!-- ## skupper site set -->
+## Guidelines
 
-<!-- ## skupper token -->
-
-<!-- ### skupper token create <file> -->
-
-<!-- ## skupper link -->
-
-<!-- ### skupper link create <file> -->
-
-<!-- ### skupper link delete <name> -->
-
-<!-- ### skupper link get [<name>] -->
-
-<!-- ## skupper listener -->
-
-<!-- ### skupper listener create <host>:<port> -->
-
-<!-- ### skupper listener delete -->
-
-<!-- ### skupper listener get [<name>] -->
-
-<!-- ### skupper listener set <name> [options] -->
-
-<!-- ## skupper connector -->
-
-<!-- ### skupper connector create -->
-
-<!-- ### skupper connector delete -->
-
-<!-- ### skupper connector get [<name>] -->
-
-<!-- ### skupper connector set <name> [options] -->
+* Commands block until the user's desired state is achieved.
+* No blocking on user input.
