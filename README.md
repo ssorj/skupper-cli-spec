@@ -141,7 +141,7 @@ Listener "database-1" is deleted
 ## Example connector operations
 
 ~~~ console
-$ skupper connector create database-5432 deployment/database --port 5432
+$ skupper connector create database deployment/database --port 5432
 Waiting for connector...
 Connector "database-1" is ready
 
