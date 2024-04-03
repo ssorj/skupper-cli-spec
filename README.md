@@ -10,6 +10,7 @@ $ curl https://skupper.io/install.sh | curl
 # West
 
 $ export KUBECONFIG=~/.kube/config-west
+$ kubectl apply -f https://skupper.io/install.yaml
 $ kubectl create deployment frontend --image quay.io/skupper/hello-world-frontend
 
 $ skupper site create --ingress loadbalancer
@@ -19,6 +20,7 @@ $ skupper listener create backend:8080
 # East
 
 $ export KUBECONFIG=~/.kube/config-east
+$ kubectl apply -f https://skupper.io/install.yaml
 $ kubectl create deployment backend --image quay.io/skupper/hello-world-backend --replicas 3
 
 $ skupper site create
@@ -33,6 +35,7 @@ $ skupper site
 [Site-specific help text]
 
 $ skupper site create --name west --ingress loadbalancer
+Waiting for status...
 Waiting for ingress...
 Site "west" is ready
 
@@ -51,7 +54,8 @@ Waiting for ingress...
 Site "west" is ready
 
 $ skupper site delete
-Site "west" deleted
+Waiting for site "west" to delete...
+Site "west" is deleted
 ~~~
 
 ## Example token operations
@@ -73,8 +77,7 @@ $ skupper link
 
 $ skupper link create token.yaml
 Waiting for link "link-2" to become active...
-Link "link-2" is active
-You can now delete token.yaml.  It is no longer usable.
+Link "link-2" is active.  You can now delete token.yaml.  It is no longer usable.
 
 $ skupper link get
 NAME     STATUS   COST
@@ -91,14 +94,16 @@ kind: Link
 [...]
 
 $ skupper link delete link-2
-Link "link-2" deleted
+Waiting for link "link-2" to delete...
+Link "link-2" is deleted
 ~~~
 
 ## Example listener operations
 
 ~~~ console
 $ skupper listener create database:5432
-Listener "listener-2" created
+Waiting for listener "listener-2"...
+Listener "listener-2" is ready
 
 $ skupper listener get
 NAME         HOST       PORT    ROUTING-KEY
@@ -130,7 +135,8 @@ people specify when they want it.
 
 ## Rules
 
-No blocking on input.
+* No blocking on input.
+
 
 ## Skupper resource commands
 
@@ -163,22 +169,22 @@ Since site is a singleton, resource name is not required.
 
 An operation specific to a particular resource type.
 
-## Skupper installation commands
+<!-- ## Skupper installation commands -->
 
-### `skupper install`
+<!-- ### `skupper install` -->
 
-Kube: Equivalent to `kubectl apply -f https://skupper.io/install.yaml`
+<!-- Kube: Equivalent to `kubectl apply -f https://skupper.io/install.yaml` -->
 
-Blocks until: The Skupper controller is ready
+<!-- Blocks until: The Skupper controller is ready -->
 
-Consider: Should this fall back to some static version of the install
-YAML burned into the CLI?  For disconnected cases.
+<!-- Consider: Should this fall back to some static version of the install -->
+<!-- YAML burned into the CLI?  For disconnected cases. -->
 
-### `skupper uninstall`
+<!-- ### `skupper uninstall` -->
 
-Kube: Equivalent to `kubectl delete -f https://skupper.io/install.yaml`
+<!-- Kube: Equivalent to `kubectl delete -f https://skupper.io/install.yaml` -->
 
-Blocks until: The Skupper resources are removed
+<!-- Blocks until: The Skupper resources are removed -->
 
 <!-- ## skupper site -->
 
