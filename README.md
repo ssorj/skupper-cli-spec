@@ -49,7 +49,6 @@ kind: Site
 [...]
 
 $ skupper site set --ingress route
-Option "ingress" set to "route"
 Waiting for ingress...
 Site "west" is ready
 
@@ -116,7 +115,8 @@ kind: Listener
 [...]
 
 $ skupper listener set database-1 --port 5431
-Option "port" set to 5431
+Waiting for listener...
+Listener "database-1" is ready
 
 $ skupper listener delete database-1
 Listener "database-1" is deleted
@@ -140,7 +140,8 @@ kind: Connector
 [...]
 
 $ skupper connector set database-1 --port 5431
-Option "port" set to 5431
+Waiting for connector...
+Connector "database-1" is ready
 
 $ skupper connector delete database-1
 Connector "database-1" is deleted
