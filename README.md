@@ -132,7 +132,6 @@ Connector "database-1" is ready
 
 $ skupper connector get
 NAME         HOST       PORT    ROUTING-KEY     SELECTOR
-payments-1   payments   8080    payments-8080   app=payments
 database-1   database   5432    database-5432   app=database
 
 $ skupper connector get database-1 -o yaml
