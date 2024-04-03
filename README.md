@@ -166,6 +166,8 @@ Connector "database-1" is deleted
 
 These are the core Skupper commands.  They are not the only commands,
 however.  Additional commands will be added to the spec in the future.
+For instance, we will have commands for debugging, getting versions,
+and for installing Skupper on a platform.
 
 ### `skupper <resource-type>`
 
