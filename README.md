@@ -264,8 +264,6 @@ the notes about how operations block.
 By default, no ingress.  Overall, it seems a bit better to require
 people specify when they want it.
 
-Can you edit the name of a CR?
-
 ## Guidelines
 
 * Commands block until the user's desired state is achieved.
