@@ -15,7 +15,7 @@ $ kubectl create deployment frontend --image quay.io/skupper/hello-world-fronten
 
 $ skupper site create --ingress loadbalancer
 $ skupper token create ~/token.yaml
-$ skupper listener create backend backend:8080
+$ skupper listener create backend --host backend --port 8080
 
 # East
 
@@ -25,7 +25,7 @@ $ kubectl create deployment backend --image quay.io/skupper/hello-world-backend 
 
 $ skupper site create
 $ skupper link create ~/token.yaml
-$ skupper connector create backend deployment/backend --port 8080
+$ skupper connector create backend --workload deployment/backend --port 8080
 ~~~
 
 ## Philosophy
@@ -90,76 +90,76 @@ $ skupper link
 [Link-specific help text]
 
 $ skupper link create token.yaml
-Waiting for link "west-1" to become active...
-Link "west-1" is active
+Waiting for link "west" to become active...
+Link "west" is active
 You can now delete token.yaml
 
 $ skupper link get
-NAME      STATUS   COST
-south-1   Error    10
-west-1    Active   1
+NAME    STATUS   COST
+south   Error    10
+west    Active   1
 
-$ skupper link get west-1
-NAME     STATUS   COST
-west-1   Active   1
+$ skupper link get west
+NAME   STATUS   COST
+west   Active   1
 
-$ skupper link get west-1 -o yaml
+$ skupper link get west -o yaml
 apiVersion: v2alpha1
 kind: Link
 [...]
 
-$ skupper link delete west-1
-Waiting for link "west-1" to delete...
-Link "west-1" is deleted
+$ skupper link delete west
+Waiting for link "west" to delete...
+Link "west" is deleted
 ~~~
 
 ## Example listener operations
 
 ~~~ console
-$ skupper listener create database database:5432
+$ skupper listener create database --host database --port 5432
 Waiting for listener...
-Listener "database-1" is ready
+Listener "database" is ready
 
 $ skupper listener get
-NAME         ROUTING-KEY   HOST       PORT
-payments-1   payments      payments   8080
-database-1   database      database   5432
+NAME       ROUTING-KEY   HOST       PORT
+payments   payments      payments   8080
+database   database      database   5432
 
-$ skupper listener get database-1 -o yaml
+$ skupper listener get database -o yaml
 apiVersion: v2alpha1
 kind: Listener
 [...]
 
-$ skupper listener set database-1 --port 5431
+$ skupper listener set database --port 5431
 Waiting for listener...
-Listener "database-1" is ready
+Listener "database" is ready
 
-$ skupper listener delete database-1
-Listener "database-1" is deleted
+$ skupper listener delete database
+Listener "database" is deleted
 ~~~
 
 ## Example connector operations
 
 ~~~ console
-$ skupper connector create database deployment/database --port 5432
+$ skupper connector create database --workload deployment/database --port 5432
 Waiting for connector...
-Connector "database-1" is ready
+Connector "database" is ready
 
 $ skupper connector get
 NAME         ROUTING-KEY   SELECTOR       HOST   PORT
-database-1   database      app=database   -      5432
+database     database      app=database   -      5432
 
-$ skupper connector get database-1 -o yaml
+$ skupper connector get database -o yaml
 apiVersion: v2alpha1
 kind: Connector
 [...]
 
-$ skupper connector set database-1 --port 5431
+$ skupper connector set database --port 5431
 Waiting for connector...
-Connector "database-1" is ready
+Connector "database" is ready
 
-$ skupper connector delete database-1
-Connector "database-1" is deleted
+$ skupper connector delete database
+Connector "database" is deleted
 ~~~
 
 ## Skupper resource commands
@@ -190,15 +190,20 @@ parameter, the file in which to create the token.
 `link create <token-file>` - `link create` takes one positional
 parameter, the file containing the token.
 
-`listener create <routing-key> <host>:<port>` - `listener create`
-takes two positonal parameters, the routing key (used to match with
-connectors) and the `<host>:<port>` of the desired Kubernetes service.
+`listener create <routing-key>` - `listener create` takes one
+ positional parameter, the routing key used to match the listener to
+ connectors.
 
-`connector create <routing-key> <resource-type>/<resource-name>` -
-`connector create` takes two positional parameters, the routing key
-(used to match with listeners) and the <resource-type>/<resource-name>
-of the target Kubernetes workload.  Kubernetes also needs a `--port`
-option to specify the port for the target workload.
+On Kubernetes, `listener create` also requires a `--host <host>`
+option and a `--port <port>` option.
+
+`connector create <routing-key>` - `connector create` takes one
+positional parameter, the the routing key used to match the connector
+to listeners.
+
+On Kubernetes, `connector create` also requires a `--selector
+<selector>`, `--host <host>`, or `--workload <type>/<name>` option and
+a `--port` option.
 
 #### Blocking
 
