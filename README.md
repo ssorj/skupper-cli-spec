@@ -76,8 +76,8 @@ $ skupper link
 [Link-specific help text]
 
 $ skupper link create token.yaml
-Waiting for link "link-2" to become active...
-Link "link-2" is active.  You can now delete token.yaml.  It is no longer usable.
+Waiting for link "west-1" to become active...
+Link "west-1" is active.  You can now delete token.yaml.  It is no longer usable.
 
 $ skupper link get
 NAME      STATUS   COST
@@ -95,7 +95,7 @@ kind: Link
 
 $ skupper link delete west-1
 Waiting for link "west-1" to delete...
-Link "link-2" is deleted
+Link "west-1" is deleted
 ~~~
 
 ## Example listener operations
@@ -160,8 +160,8 @@ Print help text for the operations of this resource type.
 Create a resource.
 
 Resource options are set using one or more `--some-key some-value`
-command line options.  Options in YAML camel case (`someKey`) are
-converted to hyphenated (`some-key`) when used as command line
+command line options.  YAML resource options in camel case (`someKey`)
+are exposed as hyphenated names (`some-key`) when used as command line
 options.
 
 `site create` blocks until the site is ready, including ingress if
