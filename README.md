@@ -80,21 +80,21 @@ Waiting for link "link-2" to become active...
 Link "link-2" is active.  You can now delete token.yaml.  It is no longer usable.
 
 $ skupper link get
-NAME     STATUS   COST
-link-1   Error    10
-link-2   Active   1
+NAME      STATUS   COST
+south-1   Error    10
+west-1    Active   1
 
-$ skupper link get link-2
+$ skupper link get west-1
 NAME     STATUS   COST
-link-2   Active   1
+west-1   Active   1
 
-$ skupper link get link-2 -o yaml
+$ skupper link get west-1 -o yaml
 apiVersion: v2alpha1
 kind: Link
 [...]
 
-$ skupper link delete link-2
-Waiting for link "link-2" to delete...
+$ skupper link delete west-1
+Waiting for link "west-1" to delete...
 Link "link-2" is deleted
 ~~~
 
@@ -102,24 +102,48 @@ Link "link-2" is deleted
 
 ~~~ console
 $ skupper listener create database:5432
-Waiting for listener "listener-2"...
-Listener "listener-2" is ready
+Waiting for listener...
+Listener "database-1" is ready
 
 $ skupper listener get
 NAME         HOST       PORT    ROUTING-KEY
-listener-1   payments   8080    payments-8080
-listener-2   database   5432    database-5432
+payments-1   payments   8080    payments-8080
+database-1   database   5432    database-5432
 
-$ skupper listener get listener-2 -o yaml
+$ skupper listener get database-1 -o yaml
 apiVersion: v2alpha1
 kind: Listener
 [...]
 
-$ skupper listener set listener-2 --port 5431
+$ skupper listener set database-1 --port 5431
 Option "port" set to 5431
 
-$ skupper listener delete listener-2
-Listener "listener-2" deleted
+$ skupper listener delete database-1
+Listener "database-1" is deleted
+~~~
+
+## Example connector operations
+
+~~~ console
+$ skupper connector create database:5432 deployment/database
+Waiting for connector...
+Connector "database-1" is ready
+
+$ skupper connector get
+NAME         HOST       PORT    ROUTING-KEY     SELECTOR
+payments-1   payments   8080    payments-8080   app=payments
+database-1   database   5432    database-5432   app=database
+
+$ skupper connector get database-1 -o yaml
+apiVersion: v2alpha1
+kind: Connector
+[...]
+
+$ skupper connector set database-1 --port 5431
+Option "port" set to 5431
+
+$ skupper connector delete database-1
+Connector "database-1" is deleted
 ~~~
 
 ## Skupper resource commands
