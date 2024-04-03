@@ -216,6 +216,9 @@ for setting site options.
 
 An operation specific to a particular resource type.
 
+For example, if in the future we have the ability to join a network
+using an invitation, we might offer `skupper site join <invitation>`.
+
 <!-- ## Skupper installation commands -->
 
 <!-- ### `skupper install` -->
