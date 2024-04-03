@@ -35,8 +35,9 @@ the standard Skupper customer resources.  Its job in short is to
 render the YAML resource, submit it to the platform, and wait for the
 desired result.
 
-The `create` and `set` operations in particular are meant to provide
-a convenient and CLI-conventional interface.
+The `create` and `set` operations in particular are meant to provide a
+convenient and CLI-conventional interface, as an alternative to
+writing YAML by hand.
 
 In general, the operations block until the user's desired outcome is
 achieved.  If the user wants something asynchronous, they can use
