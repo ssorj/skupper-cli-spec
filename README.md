@@ -76,7 +76,8 @@ $ skupper link
 
 $ skupper link create token.yaml
 Waiting for link "west-1" to become active...
-Link "west-1" is active.  You can now delete token.yaml.  It is no longer usable.
+Link "west-1" is active
+You can now delete token.yaml.  It is now expired.
 
 $ skupper link get
 NAME      STATUS   COST
