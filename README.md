@@ -233,13 +233,14 @@ An operation specific to a particular resource type.
 
 ## Thoughts
 
-It's important that these work as scripted with no sleeps or
-additional condition waits.
-
-Can you edit the name of a CR?
+It's important that the Hello World steps work as scripted with no
+sleeps or additional logic to wait on conditions.  That's why I have
+the notes about how operations block.
 
 By default, no ingress.  Overall, it seems a bit better to require
 people specify when they want it.
+
+Can you edit the name of a CR?
 
 ## Guidelines
 
