@@ -15,7 +15,7 @@ $ kubectl create deployment frontend --image quay.io/skupper/hello-world-fronten
 
 $ skupper site create --ingress loadbalancer
 $ skupper token create ~/token.yaml
-$ skupper listener create backend:8080
+$ skupper listener create backend backend:8080
 
 # East
 
@@ -25,7 +25,7 @@ $ kubectl create deployment backend --image quay.io/skupper/hello-world-backend 
 
 $ skupper site create
 $ skupper link create ~/token.yaml
-$ skupper connector create backend:8080 deployment/backend
+$ skupper connector create backend deployment/backend --port 8080
 ~~~
 
 ## Philosophy
@@ -115,14 +115,14 @@ Link "west-1" is deleted
 ## Example listener operations
 
 ~~~ console
-$ skupper listener create database:5432
+$ skupper listener create database-5432 database:5432
 Waiting for listener...
 Listener "database-1" is ready
 
 $ skupper listener get
-NAME         HOST       PORT    ROUTING-KEY
-payments-1   payments   8080    payments-8080
-database-1   database   5432    database-5432
+NAME         ROUTING-KEY     HOST       PORT
+payments-1   payments-8080   payments   8080
+database-1   database-5432   database   5432
 
 $ skupper listener get database-1 -o yaml
 apiVersion: v2alpha1
@@ -140,13 +140,13 @@ Listener "database-1" is deleted
 ## Example connector operations
 
 ~~~ console
-$ skupper connector create database:5432 deployment/database
+$ skupper connector create database-5432 deployment/database --port 5432
 Waiting for connector...
 Connector "database-1" is ready
 
 $ skupper connector get
-NAME         HOST       PORT    ROUTING-KEY     SELECTOR
-database-1   database   5432    database-5432   app=database
+NAME         ROUTING-KEY     SELECTOR       HOST   PORT
+database-1   database-5432   app=database   -      5432
 
 $ skupper connector get database-1 -o yaml
 apiVersion: v2alpha1
@@ -187,16 +187,20 @@ create the token.
 `link create` takes one positional parameter, the file containing the
 token.
 
-`listener create` takes one positional parameter of the form
-`<host>:<port>`.  Host and port are used to configure the Kubernetes
-service.  If no `--routing-key` option is supplied, a routing key is
-generated with the form `<host>-<port>`.
+`listener create <routing-key> <host>:<port>`
 
-`connector create` takes two positional parameters, `<host>:<port>`
-and `<workload>`.  Host and port are used to configure the router
-connector.  If no `--routing-key` option is supplied, a routing key is
-generated with the form `<host>-<port>`.  `<workload>` specifies a
-Kubernetes workload that will handle the matched connections.
+`connector create <routing-key> <workload>` and Kube currently needs `--port`.
+
+<!-- `listener create` takes one positional parameter of the form -->
+<!-- `<host>:<port>`.  Host and port are used to configure the Kubernetes -->
+<!-- service.  If no `--routing-key` option is supplied, a routing key is -->
+<!-- generated with the form `<host>-<port>`. -->
+
+<!-- `connector create` takes two positional parameters, `<host>:<port>` -->
+<!-- and `<workload>`.  Host and port are used to configure the router -->
+<!-- connector.  If no `--routing-key` option is supplied, a routing key is -->
+<!-- generated with the form `<host>-<port>`.  `<workload>` specifies a -->
+<!-- Kubernetes workload that will handle the matched connections. -->
 
 #### Blocking
 
